@@ -11,6 +11,53 @@
   </welcome-file-list>
   
   <!-- Servlet Declaration -->
+  
+ 
+ 
+  <servlet>
+    <servlet-name>GroupUploadVideo</servlet-name>
+    <jsp-file>/GroupUploadVideo.jsp</jsp-file>
+    <multipart-config>
+        <max-file-size>52428800</max-file-size> <!-- 50MB -->
+        <max-request-size>104857600</max-request-size> <!-- 100MB -->
+        <file-size-threshold>0</file-size-threshold>
+    </multipart-config>
+</servlet>
+<servlet-mapping>
+    <servlet-name>GroupUploadVideo</servlet-name>
+    <url-pattern>/GroupUploadVideo.jsp</url-pattern>
+</servlet-mapping>
+  <servlet>
+    <servlet-name>UploadGroupImage</servlet-name>
+    <jsp-file>/UploadGroupImage.jsp</jsp-file>
+    <multipart-config>
+        <!-- 5MB max file size -->
+        <max-file-size>5242880</max-file-size>
+        <!-- 10MB total request size -->
+        <max-request-size>10485760</max-request-size>
+        <!-- Store files over 0 bytes on disk -->
+        <file-size-threshold>0</file-size-threshold>
+    </multipart-config>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>UploadGroupImage</servlet-name>
+    <url-pattern>/UploadGroupImage.jsp</url-pattern>
+</servlet-mapping>
+  
+   <servlet>
+    <servlet-name>UploadGroupAudioServlet</servlet-name>
+    <jsp-file>/UploadGroupAudio.jsp</jsp-file>
+    <multipart-config>
+        <max-file-size>10485760</max-file-size> <!-- 10MB -->
+        <max-request-size>20971520</max-request-size> <!-- 20MB -->
+        <file-size-threshold>0</file-size-threshold>
+    </multipart-config>
+</servlet>
+<servlet-mapping>
+    <servlet-name>UploadGroupAudioServlet</servlet-name>
+    <url-pattern>/UploadGroupAudio.jsp</url-pattern>
+</servlet-mapping>
   <servlet>
     <servlet-name>UploadVideoServlet</servlet-name>
     <jsp-file>/UploadVideo.jsp</jsp-file>
@@ -64,5 +111,10 @@
     <servlet-name>ProfileUploadServlet</servlet-name>
     <url-pattern>/ProfileUploadServlet</url-pattern>
   </servlet-mapping>
+  
+    
+
+
+  
  
 </web-app>

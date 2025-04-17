@@ -50,33 +50,33 @@
             height: 70px;
             margin-top: 0;
         }
-        .attachment-menu {
-            position: absolute;
-            bottom: 70px;
-            left: 20px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            padding: 12px;
-            display: none;
-            z-index: 1000;
-        }
-        .attachment-item {
-            display: flex;
-            align-items: center;
-            padding: 8px 16px;
-            border-radius: 8px;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        .attachment-item:hover {
-            background: #f3f4f6;
-        }
-        .attachment-item:hover .attachment-icon {
-            color: #1f2937;
-        }
-        .attachment-item:hover .attachment-text {
-            color: #111827;
+	        .attachment-menu {
+	            position: absolute;
+	            bottom: 70px;
+	            left: 20px;
+	            background: inherit;
+	            border-radius: 12px;
+	            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+	            padding: 12px;
+	            display: none;
+	            z-index: 1000;
+	        }
+	        .attachment-item {
+	            display: flex;
+	            align-items: center;
+	            padding: 8px 16px;
+	            border-radius: 8px;
+	            transition: all 0.2s;
+	            cursor: pointer;
+	        }
+	        .attachment-item:hover {
+	            background: #f3f4f6;
+	        }
+	        .attachment-item:hover .attachment-icon {
+	            color: #1f2937;
+	        }
+	        .attachment-item:hover .attachment-text {
+	            color: #111827;
             
         }
          
@@ -87,7 +87,7 @@
         margin: 10px 0;
     }
     .audio-player::-webkit-media-controls-panel {
-        background-color: #f3f4f6;
+        background-color:  hsl(var(--bd));;
     }
 </style>
     <style>
@@ -117,8 +117,46 @@
 }
 }
 </style>
+<style>
+    /* Search Container Styles */
+    .search-container {
+        position: absolute;
+        right: 20px;
+        top: 80px;
+        background: inherit;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        display: none;
+        z-index: 1000;
+        width: 280px;
+    }
+    .search-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+    .search-input {
+        flex: 1;
+        padding: 8px 12px;
+        border: 1px solid #e5e7eb;
+        border-radius: 20px;
+        outline: none;
+        font-size: 14px;
+    }
+    .search-close {
+        cursor: pointer;
+        padding: 4px;
+        color: #6b7280;
+        transition: color 0.2s;
+    }
+    .search-close:hover {
+        color: #ef4444;
+    }
+</style>
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="bg-base-100 font-sans">
     <div class="navbar-container">
         <jsp:include page="Navbar.jsp" />
     </div>
@@ -127,7 +165,7 @@
     <div class="flex h-screen">
         <jsp:include page="Slidebar.jsp" />
 
-        <div class="flex-1 flex flex-col bg-white shadow-lg">
+        <div class="flex-1 flex flex-col shadow-lg">
             <!-- Chat Header -->
             <div class="p-4 border-b flex items-center justify-between">
                 <div class="flex items-center space-x-4">
@@ -156,15 +194,25 @@
     </button>
     
     <!-- Three-dot menu button -->
-    <button class="p-2 rounded-full hover:bg-gray-100 transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" viewBox="0 0 24 24" fill="currentColor">
-            <circle cx="12" cy="6" r="2"/>
-            <circle cx="12" cy="12" r="2"/>
-            <circle cx="12" cy="18" r="2"/>
-        </svg>
-    </button>
+    <button id="menuButton" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="12" cy="6" r="2"/>
+                <circle cx="12" cy="12" r="2"/>
+                <circle cx="12" cy="18" r="2"/>
+            </svg>
+        </button>
 </div>
-            </div>
+<div id="searchContainer" class="search-container">
+    <div class="search-header">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search messages...">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 search-close" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+    </div>
+</div>
+
+
+    </div>
 <!-- Chat Messages -->
             <div class="flex-1 p-4 overflow-y-auto" id="chatWindow">
                 <%
@@ -222,7 +270,7 @@
                             boolean isSender = (senderId == loggedInUserId);
                     %>
                             <div class="flex <%= isSender ? "justify-end" : "justify-start" %> mb-4">
-                                <div class="<%= isSender ? "bg-blue-500 text-white" : "bg-gray-200" %> p-3 rounded-lg max-w-xs">
+                                <div class="<%= isSender ? "bg-primary text-primary-content" : "bg-neutral text-neutral-content" %> p-3 rounded-lg max-w-xs">
                                     <% if (image != null && !image.isEmpty()) { %>
                                         <img src="<%= image %>" alt="Attachment" class="mb-2 rounded-lg cursor-pointer max-w-full h-48 object-cover" onclick="window.open(this.src, '_blank')">
                                     <% } %>
@@ -238,7 +286,7 @@
 										<% } %>
         
                                     <p><%= text %></p>
-                                    <p class="text-xs mt-1 <%= isSender ? "text-blue-100" : "text-gray-500" %>" 
+                                    <p class="text-xs mt-1 <%= isSender ? "bg-primary text-primary-content" : "bg-neutral text-neutral-content" %>" 
                                        data-timestamp="<%= createdAt.toInstant().toString() %>">
                                         <%= createdAt.toLocalDateTime().toLocalTime().toString().substring(0, 5) %>
                                     </p>
@@ -256,58 +304,126 @@
 
             <!-- Chat Input -->
             <div class="p-4 border-t flex items-center gap-2 relative">
-                <div class="relative">
-                    <button id="plusButton" class="p-2 rounded-full bg-white border border-gray-300 hover:bg-gray-100 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                        </svg>
-                    </button>
-                    
-                    <!-- Attachment Menu -->
-                    <div id="attachmentMenu" class="attachment-menu">
-                        <div class="attachment-item" onclick="handleAttachment('audio')">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-600 attachment-icon" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                            </svg>
-                            <span class="text-gray-700 attachment-text">Audio</span>
-                        </div>
-                        
-                        <div class="attachment-item" onclick="handleAttachment('photo')">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-600 attachment-icon" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <span class="text-gray-700 attachment-text">Photo</span>
-                        </div>
-                        
-                        <div class="attachment-item" onclick="handleAttachment('video')">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-600 attachment-icon" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 01221 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                            </svg>
-                            <span class="text-gray-700 attachment-text">Video</span>
-                        </div>
-                    </div>
-                </div>
+               <div class="relative">
+    <button id="plusButton" class="p-2 bg-primary text-primary-content rounded-full hover:bg-primary-focus transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+    </button>
+    
+    <!-- Attachment Menu -->
+    <div id="attachmentMenu" class="attachment-menu bg-base-100 border border-base-200">
+        <div class="attachment-item" onclick="handleAttachment('audio')">
+            <svg xmlns="http://www.w3.org/2000/svg" 
+                 class="h-5 w-5 mr-2 text-base-content attachment-icon" 
+                 viewBox="0 0 24 24" 
+                 stroke-width="2" 
+                 stroke="currentColor" 
+                 fill="none">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+            </svg>
+            <span class="text-base-content attachment-text">Audio</span>
+        </div>
+        
+        <div class="attachment-item" onclick="handleAttachment('photo')">
+            <svg xmlns="http://www.w3.org/2000/svg" 
+                 class="h-5 w-5 mr-2 text-base-content attachment-icon" 
+                 viewBox="0 0 24 24" 
+                 stroke-width="2" 
+                 stroke="currentColor" 
+                 fill="none">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span class="text-base-content attachment-text">Photo</span>
+        </div>
+        
+        <div class="attachment-item" onclick="handleAttachment('video')">
+            <svg xmlns="http://www.w3.org/2000/svg" 
+                 class="h-5 w-5 mr-2 text-base-content attachment-icon" 
+                 viewBox="0 0 24 24" 
+                 stroke-width="2" 
+                 stroke="currentColor" 
+                 fill="none">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 01221 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            <span class="text-base-content attachment-text">Video</span>
+        </div>
+    </div>
+</div>
 
                 <input type="text" id="messageInput" 
-                       class="flex-1 p-2 border rounded-full px-4 focus:outline-none focus:border-blue-500" 
-                       placeholder="Type a message..."
-                       onkeypress="if(event.keyCode === 13) sendMessage()">
+       class="flex-1 p-2 border border-base-200 rounded-full px-4 bg-base-100 focus:outline-none focus:border-primary" 
+       placeholder="Type a message..."
+       onkeypress="if(event.keyCode === 13) sendMessage()">
 
-                <button class="p-2 rounded-full bg-white border border-gray-300 hover:bg-gray-100 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                              d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                </button>
+ <button type="button" 
+            onclick="toggleEmojiPicker()"
+            class="p-2 bg-primary text-primary-content rounded-full hover:bg-primary-focus transition-colors">
+        😊 <!-- Smiley face emoji as default icon -->
+    </button>
+    
+    <!-- Emoji Picker -->
+    <div id="emojiPicker" 
+         class="hidden absolute bottom-full mb-2 left-0 bg-base-100 border border-base-200 rounded-lg p-2 shadow-lg w-48 grid grid-cols-4 gap-2 z-50">
+        <% String[] emojis = {
+            "😀", "😁", "😂", "🤣", 
+            "😃", "😄", "😅", "😆", 
+            "😉", "😊", "😋", "😎", 
+            "😍", "😘", "🥰", "😗"
+        }; %>
+        <% for(String emoji : emojis) { %>
+            <button type="button" 
+                    class="text-2xl p-1 hover:bg-base-200 rounded-lg transition-colors"
+                    onclick="insertEmoji('<%= emoji %>')">
+                <%= emoji %>
+            </button>
+        <% } %>
+    </div>
 
-                <button onclick="sendMessage()" class="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12L3 21l18-9-18-9-3 9zM11 12l8-4-8-4v8z"/>
-                    </svg>
-                </button>
+     <button onclick="sendMessage()" class="p-2 bg-primary text-primary-content rounded-full hover:bg-primary-focus transition-colors">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12L3 21l18-9-18-9-3 9zM11 12l8-4-8-4v8z"/>
+    </svg>
+</button>
             </div>
         </div>
     </div>
+    
+    <script>
+let emojiPickerVisible = false;
+
+function toggleEmojiPicker() {
+    const picker = document.getElementById('emojiPicker');
+    emojiPickerVisible = !emojiPickerVisible;
+    picker.classList.toggle('hidden', !emojiPickerVisible);
+    
+    // Close other open menus if any
+    document.getElementById('attachmentMenu').style.display = 'none';
+}
+
+function insertEmoji(emoji) {
+    const input = document.getElementById('messageInput');
+    input.value += emoji;
+    input.focus();
+    
+    // Optionally send immediately
+    // sendMessage();
+}
+
+// Close picker when clicking outside
+document.addEventListener('click', (e) => {
+    const picker = document.getElementById('emojiPicker');
+    const emojiButton = e.target.closest('[onclick*="toggleEmojiPicker"]');
+    
+    if (!picker.contains(e.target) && !emojiButton) {
+        picker.classList.add('hidden');
+        emojiPickerVisible = false;
+    }
+});
+
+
+
+</script>
 
     <script>
  // Establish WebSocket connection
@@ -373,7 +489,7 @@
     // Add date header if needed
     if (!lastDate || currentDate.getTime() !== compareDate.getTime()) {
         const dateHeader = document.createElement('div');
-        dateHeader.className = 'date-header text-center text-gray-500 text-sm my-4';
+        dateHeader.className = 'date-header text-center text-primary-content text-sm my-4';
         dateHeader.textContent = getDateLabel(messageDate);
         chatWindow.appendChild(dateHeader);
     }
@@ -385,8 +501,8 @@
     
     const contentDiv = document.createElement("div");
     contentDiv.className = isSender 
-        ? "bg-blue-500 text-white p-3 rounded-lg max-w-xs" 
-        : "bg-gray-200 p-3 rounded-lg max-w-xs";
+        ? "bg-primary text-primary-content p-3 rounded-lg max-w-xs" 
+        : "bg-neutral text-neutral-content p-3 rounded-lg max-w-xs";
 
     if (message.image) {
         const img = document.createElement("img");
@@ -426,8 +542,8 @@
     // Add timestamp data attribute
     const timeElement = document.createElement('p');
     timeElement.className = isSender 
-        ? "text-xs mt-1 text-blue-100" 
-        : "text-xs mt-1 text-gray-500";
+        ? "text-xs mt-1  text-primary-content" 
+        : "text-xs mt-1  text-neutral-content";
     timeElement.textContent = messageDate.toLocaleTimeString([], {
         hour: '2-digit',
         minute: '2-digit'
@@ -477,6 +593,8 @@
                 document.getElementById('attachmentMenu').style.display = 'none';
             }
         });
+        document.getElementById('emojiPicker').classList.add('hidden');
+        emojiPickerVisible = false;
 
         function handleAttachment(type) {
             if (type === 'photo') {
@@ -610,5 +728,131 @@
             });
         }
     </script>
+    <script>
+// Search functionality
+let originalDisplayStates = new Map();
+
+document.getElementById('menuButton').addEventListener('click', function(e) {
+    const searchContainer = document.getElementById('searchContainer');
+    searchContainer.style.display = searchContainer.style.display === 'block' ? 'none' : 'block';
+    if (searchContainer.style.display === 'block') {
+        document.getElementById('searchInput').focus();
+    }
+    e.stopPropagation();
+});
+
+document.querySelector('.search-close').addEventListener('click', closeSearch);
+document.getElementById('searchInput').addEventListener('input', handleSearch);
+
+function handleSearch(e) {
+    const searchTerm = e.target.value.toLowerCase().trim();
+    const allMessages = Array.from(document.querySelectorAll('#chatWindow > div'));
+    const dateHeaders = document.querySelectorAll('.date-header');
+
+    // Store original states on first search
+    if (searchTerm && originalDisplayStates.size === 0) {
+        allMessages.forEach(element => {
+            originalDisplayStates.set(element, element.style.display);
+        });
+    }
+
+    if (!searchTerm) {
+        restoreOriginalState();
+        return;
+    }
+
+    // Filter messages
+    allMessages.forEach(element => {
+        if (element.classList.contains('date-header')) {
+            element.style.display = 'none';
+        } else {
+            const messageText = element.querySelector('p')?.textContent.toLowerCase() || '';
+            element.style.display = messageText.includes(searchTerm) ? 'flex' : 'none';
+        }
+    });
+
+    // Show/hide date headers based on visible messages
+    dateHeaders.forEach(header => {
+        let hasVisibleMessages = false;
+        let nextElement = header.nextElementSibling;
+        
+        while(nextElement && !nextElement.classList.contains('date-header')) {
+            if(nextElement.style.display !== 'none') {
+                hasVisibleMessages = true;
+                break;
+            }
+            nextElement = nextElement.nextElementSibling;
+        }
+        
+        header.style.display = hasVisibleMessages ? 'block' : 'none';
+    });
+}
+
+function closeSearch() {
+    document.getElementById('searchContainer').style.display = 'none';
+    document.getElementById('searchInput').value = '';
+    restoreOriginalState();
+}
+
+function restoreOriginalState() {
+    // Restore all elements to their original display state
+    originalDisplayStates.forEach((displayState, element) => {
+        element.style.display = displayState || '';
+    });
+    originalDisplayStates.clear();
+    
+    // Ensure all date headers are visible
+    document.querySelectorAll('.date-header').forEach(header => {
+        header.style.display = 'block';
+    });
+}
+
+// Close search when clicking outside
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('#searchContainer') && !e.target.closest('#menuButton')) {
+        closeSearch();
+    }
+});
+</script>
+
+<script>
+// Auto-scroll to bottom on initial load
+document.addEventListener('DOMContentLoaded', function() {
+    const chatWindow = document.getElementById('chatWindow');
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+});
+
+// MutationObserver to detect chat changes
+const chatObserver = new MutationObserver((mutations) => {
+    const chatWindow = document.getElementById('chatWindow');
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+});
+
+// Start observing chat window
+chatObserver.observe(document.getElementById('chatWindow'), {
+    childList: true,
+    subtree: true
+});
+
+// Click handler for user list items (modify selector to match your user items)
+document.querySelectorAll('.user-list-item').forEach(item => {
+    item.addEventListener('click', () => {
+        // Force scroll after click
+        setTimeout(() => {
+            const chatWindow = document.getElementById('chatWindow');
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }, 50); // Minimal delay to ensure DOM update
+        
+        // Disconnect and reconnect observer to prevent duplicate triggers
+        chatObserver.disconnect();
+        chatObserver.observe(chatWindow, {
+            childList: true,
+            subtree: true
+        });
+    });
+});
+</script>
+
+
 </body>
 </html>

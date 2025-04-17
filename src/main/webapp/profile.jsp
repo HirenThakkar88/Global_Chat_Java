@@ -42,7 +42,7 @@
     }
     
     // Set default profile picture if none exists
-    if (profilePic == null || profilePic.trim().isEmpty()) {
+    if (profilePic == null || profilePic.trim().isEmpty() || profilePic.equals("images/default-profile.png")) {
         profilePic = "images/default-profile.png";
     } else if (!profilePic.startsWith("http") && !profilePic.startsWith("/")) {
         profilePic = "images/" + profilePic;
@@ -100,7 +100,7 @@
         }
     </script>
 </head>
-<body class="bg-white text-gray-900 flex justify-center items-center min-h-screen">
+<body class="min-h-screen bg-base-100 flex justify-center items-center">
     <jsp:include page="Navbar.jsp" />
 
     <div class="bg-gray-100 p-8 rounded-lg shadow-lg w-full max-w-md">

@@ -10,6 +10,7 @@
         /* Add space after navbar */
         .navbar-space {
             margin-top: 70px; /* Adjust as needed */
+            
         }
     </style>
     <%@ page session="true" %>
@@ -33,7 +34,7 @@
     }
 %>
 </head>
-<body class="bg-gray-100">
+<body class="min-h-screen bg-base-100">
 <jsp:include page="Navbar.jsp" />
 <div class="navbar-space"></div>
 
@@ -42,7 +43,7 @@
     <jsp:include page="Slidebar.jsp" />
 
     <!-- Main Chat Area -->
-    <div class="flex-1 flex items-center justify-center bg-white shadow-lg">
+    <div class="flex-1 flex items-center justify-center shadow-lg">
         <div class="text-center">
             <img src="https://cdn-icons-png.flaticon.com/512/1383/1383269.png" alt="Chat Illustration" class="rounded-lg mb-4 w-20 h-20 mx-auto">
             <h2 class="text-2xl font-semibold mt-4">Select a conversation to start chatting</h2>

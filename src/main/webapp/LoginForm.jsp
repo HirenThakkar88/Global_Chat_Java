@@ -3,9 +3,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+     <meta name="google-signin-client_id" content="994421752501-qnms9c822gvoe2dg4fah0fb3ge4ej6il.apps.googleusercontent.com">
+      <script src="https://accounts.google.com/gsi/client" async defer></script>
     <title>Login - Global Chat</title>
       <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+     <!-- Error Handling -->
+    <% if (request.getParameter("error") != null) { %>
+    <script>
+        alert("<%= request.getParameter("error") %>");
+    </script>
+    <% } %>
+
+    <script>
+        function handleGoogleResponse(response) {
+            window.location.href = 'GoogleLogin?credential=' + encodeURIComponent(response.credential);
+        }
+        function togglePassword() {
+            const passwordField = document.getElementById("password");
+            const toggleIcon = document.getElementById("toggleIcon");
+            passwordField.type = passwordField.type === "password" ? "text" : "password";
+            toggleIcon.innerHTML = passwordField.type === "password" ? 
+                `<svg ... (keep your existing SVG code) ... </svg>` :
+                `<svg ... (keep your existing SVG code) ... </svg>`;
+        }
+    </script>
     <style>
         .navbar-space { margin-top: 80px; }
         
@@ -360,7 +383,7 @@
 >
     Connect Now
 </button>
-            </form>
+           
 
             <!-- Social Login -->
             <div class="mt-8">
@@ -369,18 +392,24 @@
                     <p class="px-4 text-sm text-gray-400">Or continue with</p>
                     <span class="flex-grow h-px bg-gray-700"></span>
                 </div>
-                <div class="flex justify-center gap-4">
-                    <button class="social-btn flex items-center justify-center w-12 h-12 rounded-full bg-gray-800 hover:bg-gray-700 transition-all">
-                        <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" alt="Google" class="w-6 h-6">
-                    </button>
-                    <button class="social-btn flex items-center justify-center w-12 h-12 rounded-full bg-gray-800 hover:bg-gray-700 transition-all">
-                        <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" class="w-6 h-6">
-                    </button>
-                    <button class="social-btn flex items-center justify-center w-12 h-12 rounded-full bg-gray-800 hover:bg-gray-700 transition-all">
-                        <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" alt="GitHub" class="w-6 h-6">
-                    </button>
+                <div class="flex justify-center">
+                    <div id="g_id_onload"
+                        data-client_id="994421752501-qnms9c822gvoe2dg4fah0fb3ge4ej6il.apps.googleusercontent.com"
+                        data-callback="handleGoogleResponse"
+                        data-context="signin"
+                        data-ux_mode="popup">
+                    </div>
+                    <div class="g_id_signin"
+                        data-type="standard"
+                        data-shape="rectangular"
+                        data-theme="outline"
+                        data-text="signin_with"
+                        data-size="large"
+                        data-logo_alignment="left">
+                    </div>
                 </div>
-            </div>
+                 </div>
+             </form>
 
             <!-- Signup Link -->
             <p class="mt-8 text-center text-sm text-gray-400">
